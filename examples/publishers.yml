@@ -1,0 +1,20 @@
+permissions:
+  contents: read
+  id-token: write
+steps:
+  - uses: actions/checkout@v4
+    with: {fetch-depth: 0}
+  - uses: aws-actions/configure-aws-credentials@v4
+    with:
+      role-to-assume: ${{ secrets.CHANGELOG_AWS_ROLE }}
+      aws-region: us-east-1
+  - uses: sparepartslabs/spareparts-changelog@v1
+    with:
+      from: v1.0.0
+      title: v1.1.0
+      publish-s3: "true"
+      s3-bucket: customer-changelogs
+      s3-key: v1.1.0.md
+      publish-linkedin: "true"
+      linkedin-author: urn:li:organization:123456
+      linkedin-access-token: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}

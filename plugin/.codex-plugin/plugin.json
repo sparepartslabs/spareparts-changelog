@@ -1,0 +1,16 @@
+{
+  "name": "spareparts-changelog",
+  "version": "0.1.0",
+  "description": "Generate deterministic end-user changelogs and safely configure optional publishers",
+  "author": {"name": "Spare Parts Labs"},
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Spare Parts Changelog",
+    "shortDescription": "Generate and publish end-user changelogs.",
+    "longDescription": "Guides local changelog generation and GitHub Action setup while keeping S3 and LinkedIn independently opt-in.",
+    "developerName": "Spare Parts Labs",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Generate an end-user changelog for this repository."
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "spareparts-changelog",
+  "version": "0.1.0",
+  "description": "Deterministic end-user changelogs for repositories, GitHub Actions, S3, and LinkedIn",
+  "type": "module",
+  "bin": {"spareparts-changelog": "dist/cli/main.js"},
+  "main": "dist/index.js",
+  "files": ["dist", "action.yml", "plugin", "README.md", "LICENSE"],
+  "scripts": {
+    "build": "tsc && npm run build:action",
+    "build:action": "node scripts/build-action.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "eslint .",
+    "format:check": "prettier --check .",
+    "verify:dist": "node scripts/verify-distribution.mjs",
+    "bundle:check": "npm run verify:dist",
+    "plugin:validate": "node scripts/validate-plugin.mjs"
+  },
+  "engines": {"node": ">=20"},
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@aws-sdk/client-s3": "^3.864.0",
+    "commander": "^14.0.0",
+    "conventional-commits-parser": "^6.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@types/node": "^22.17.1",
+    "@vercel/ncc": "^0.38.3",
+    "eslint": "^9.33.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.39.0",
+    "vitest": "^3.2.4"
+  },
+  "overrides": {"undici": "^6.28.0"}
+}

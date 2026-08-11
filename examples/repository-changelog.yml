@@ -1,0 +1,10 @@
+steps:
+  - uses: actions/checkout@v4
+    with: {fetch-depth: 0}
+  - id: changelog
+    uses: sparepartslabs/spareparts-changelog@v1
+    with:
+      from: v1.0.0
+      to: HEAD
+      title: v1.1.0
+  # Add a separately permissioned commit/push step only if your policy allows it.

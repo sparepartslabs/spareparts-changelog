@@ -1,0 +1,17 @@
+# Spare Parts engineering context: regenerable output and per-run state.
+/.sp/execute/
+/.sp/feature.json
+**/.sp/traces.db*
+/.sp/scripts/
+/.sp/templates/
+node_modules/
+coverage/
+build/
+*.log
+.env*
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+.vscode/
+.idea/

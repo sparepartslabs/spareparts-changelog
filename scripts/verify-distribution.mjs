@@ -1,0 +1,1 @@
+import {execFileSync} from "node:child_process";import {readFileSync} from "node:fs";const before=readFileSync("dist/action/index.js");execFileSync("npm",["run","build:action"],{stdio:"inherit"});const after=readFileSync("dist/action/index.js");if(!before.equals(after))throw new Error("Action bundle was stale and has been regenerated; rerun verification");
