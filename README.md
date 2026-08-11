@@ -15,3 +15,11 @@ S3 requires `--s3 --s3-bucket ... --s3-key ...` and standard AWS environment cre
 ## GitHub Action
 
 The action updates the checked-out file but leaves checkout credentials, commits, and pushes to the calling workflow. See `examples/` for repository-only and opt-in publisher configurations.
+
+## CI, releases, and GitHub Marketplace
+
+Pull requests run tests on Node 20, 22, and 24, validate lint/formatting, rebuild and compare the committed Action bundle, validate the Codex plugin, audit dependencies, and scan for secrets. Protect `main` with the exact checks documented in [`specs/002-ci-action-releases/contracts/checks.md`](specs/002-ci-action-releases/contracts/checks.md).
+
+To release, first update `package.json` and the plugin version, commit the regenerated distribution, then push the matching stable tag such as `v1.2.3`. The tag workflow repeats validation, creates the immutable GitHub release, and only then moves the matching major Action alias (`v1`) to that commit. Invalid, prerelease, and package-mismatched tags fail without moving an alias.
+
+GitHub Marketplace enrollment is not fully automatable through the release workflow or an API toggle. For the initial listing, an organization owner must accept the GitHub Marketplace Developer Agreement, have two-factor authentication enabled, and select the Marketplace publication checkbox in GitHub's release UI. After that manual setup, this repository's tagged workflow automates GitHub releases and the floating major tag used by Action consumers.
