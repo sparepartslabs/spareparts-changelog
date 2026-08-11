@@ -1,5 +1,9 @@
 name: Spare Parts Changelog
 description: Generate deterministic end-user changelogs with optional publishers
+author: Spare Parts Labs
+branding:
+  icon: file-text
+  color: blue
 inputs:
   from: {description: Start revision, required: true}
   to: {description: End revision, default: HEAD}

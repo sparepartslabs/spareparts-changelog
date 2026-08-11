@@ -13,9 +13,11 @@
     "test": "vitest run",
     "lint": "eslint .",
     "format:check": "prettier --check .",
+    "format:ci": "prettier --check .github scripts/validate-plugin.mjs scripts/validate-workflows.mjs",
     "verify:dist": "node scripts/verify-distribution.mjs",
     "bundle:check": "npm run verify:dist",
-    "plugin:validate": "node scripts/validate-plugin.mjs"
+    "plugin:validate": "node scripts/validate-plugin.mjs",
+    "workflows:validate": "node scripts/validate-workflows.mjs"
   },
   "engines": {"node": ">=20"},
   "dependencies": {
