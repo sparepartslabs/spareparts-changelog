@@ -3,7 +3,7 @@ permissions:
   id-token: write
 steps:
   - uses: actions/checkout@v4
-    with: {fetch-depth: 0}
+    with: { fetch-depth: 0 }
   - uses: aws-actions/configure-aws-credentials@v4
     with:
       role-to-assume: ${{ secrets.CHANGELOG_AWS_ROLE }}
@@ -12,6 +12,8 @@ steps:
     with:
       from: v1.0.0
       title: v1.1.0
+      provider: anthropic
+      anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
       publish-s3: "true"
       s3-bucket: customer-changelogs
       s3-key: v1.1.0.md

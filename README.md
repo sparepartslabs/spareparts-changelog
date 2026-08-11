@@ -1,11 +1,11 @@
 # Spare Parts Changelog
 
-Generate deterministic, end-user-facing Markdown from Conventional Commits. By default the CLI updates `CHANGELOG.md` in the working tree and never commits or pushes. S3 and LinkedIn are independently opt-in.
+Generate AI-written, evidence-grounded end-user Markdown from Conventional Commits. By default the CLI updates `CHANGELOG.md` in the working tree and never commits or pushes. S3 and LinkedIn are independently opt-in.
 
 ## CLI
 
 ```sh
-npx spareparts-changelog generate --from v1.0.0 --to HEAD --title v1.1.0
+ANTHROPIC_API_KEY=... npx spareparts-changelog generate --provider anthropic --from v1.0.0 --to HEAD --title v1.1.0
 ```
 
 Use `--no-write --output markdown` for render-only output. Repeating the same range and title replaces the same managed section without duplication. Supported user-facing types initially include `feat`, `fix`, `perf`, `security`, `deprecate`, and `remove`; maintenance-only commits are omitted.

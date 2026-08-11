@@ -1,10 +1,13 @@
 steps:
   - uses: actions/checkout@v4
-    with: {fetch-depth: 0}
+    with: { fetch-depth: 0 }
   - id: changelog
     uses: sparepartslabs/spareparts-changelog@v1
     with:
       from: v1.0.0
       to: HEAD
       title: v1.1.0
+      provider: anthropic
+      anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+      instructions: Write for workspace administrators in a concise, direct tone.
   # Add a separately permissioned commit/push step only if your policy allows it.

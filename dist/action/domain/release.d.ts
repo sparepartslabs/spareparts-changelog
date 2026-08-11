@@ -34,12 +34,21 @@ export interface LinkedInConfig {
     author?: string;
     accessToken?: string;
 }
+export type AIVendor = "anthropic" | "openai" | "gemini";
+export interface AIConfig {
+    provider: string;
+    instructions?: string;
+    anthropicApiKey?: string;
+    openaiApiKey?: string;
+    geminiApiKey?: string;
+}
 export interface ReleaseRequest {
     from: string;
     to: string;
     identity: string;
     changelogPath: string;
     writeRepository: boolean;
+    ai: AIConfig;
     s3: S3Config;
     linkedin: LinkedInConfig;
 }

@@ -1,2 +1,17 @@
-import {it,expect} from "vitest";import fs from "node:fs/promises";import os from "node:os";import path from "node:path";import {render} from "../src/render/markdown.js";import {updateChangelog} from "../src/changelog/update.js";
-it("updates idempotently",async()=>{const root=await fs.mkdtemp(path.join(os.tmpdir(),"changelog-"));const a=render("v1",[],0);expect(await updateChangelog(root,"CHANGELOG.md",a)).toBe(true);expect(await updateChangelog(root,"CHANGELOG.md",a)).toBe(false);expect((await fs.readFile(path.join(root,"CHANGELOG.md"),"utf8")).match(/spareparts-changelog:start/g)?.length).toBe(1)});
+import { it, expect } from "vitest";
+import fs from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+import { render } from "../src/render/markdown.js";
+import { updateChangelog } from "../src/changelog/update.js";
+it("updates idempotently", async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "changelog-"));
+  const a = render("v1", [], 0);
+  expect(await updateChangelog(root, "CHANGELOG.md", a)).toBe(true);
+  expect(await updateChangelog(root, "CHANGELOG.md", a)).toBe(false);
+  expect(
+    (await fs.readFile(path.join(root, "CHANGELOG.md"), "utf8")).match(
+      /spareparts-changelog:start/g,
+    )?.length,
+  ).toBe(1);
+});
