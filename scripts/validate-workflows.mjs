@@ -59,6 +59,33 @@ requireText(
 );
 requireText(
   release,
+  /id-token: write/,
+  "release must request an OIDC identity token",
+);
+requireText(
+  release,
+  /uses: aws-actions\/configure-aws-credentials@v5/,
+  "release must assume the changelog publisher role",
+);
+requireText(
+  release,
+  /s3-key: releases\/spareparts-changelog\/\$\{\{ steps\.changelog-object\.outputs\.version \}\}\.md/,
+  "release must publish to its assigned stable S3 prefix",
+);
+requireText(
+  release,
+  /publish-s3: "true"/,
+  "release must publish canonical notes to S3",
+);
+requireText(
+  release,
+  /--notes-file release-notes\.md/,
+  "GitHub release must use canonical notes",
+);
+if (/--generate-notes/.test(release))
+  throw new Error("release must not substitute GitHub-generated notes");
+requireText(
+  release,
   /concurrency:\s*\n\s+group: action-release/,
   "releases must serialize",
 );
