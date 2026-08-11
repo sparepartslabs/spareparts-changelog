@@ -1,8 +1,8 @@
 {
   "name": "spareparts-changelog",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Generate deterministic end-user changelogs and safely configure optional publishers",
-  "author": {"name": "Spare Parts Labs"},
+  "author": { "name": "Spare Parts Labs" },
   "skills": "./skills/",
   "interface": {
     "displayName": "Spare Parts Changelog",

@@ -1,31 +1,48 @@
 name: Spare Parts Changelog
-description: Generate deterministic end-user changelogs with optional publishers
+description: Generate AI-written, evidence-grounded end-user changelogs with optional publishers
 author: Spare Parts Labs
 branding:
   icon: file-text
   color: blue
 inputs:
-  from: {description: Start revision, required: true}
-  to: {description: End revision, default: HEAD}
-  title: {description: Release title, required: true}
-  changelog-path: {description: Repository changelog path, default: CHANGELOG.md}
-  write-repository: {description: Update the checked-out file without pushing, default: "true"}
-  publish-s3: {description: Enable S3 publication, default: "false"}
-  s3-bucket: {description: S3 bucket}
-  s3-key: {description: S3 object key}
-  s3-region: {description: S3 region}
-  s3-endpoint: {description: S3-compatible endpoint}
-  s3-force-path-style: {description: Use path-style S3 addressing, default: "false"}
-  publish-linkedin: {description: Enable LinkedIn publication, default: "false"}
-  linkedin-author: {description: LinkedIn author URN}
-  linkedin-access-token: {description: LinkedIn secret access token}
+  from: { description: Start revision, required: true }
+  to: { description: End revision, default: HEAD }
+  title: { description: Release title, required: true }
+  provider:
+    {
+      description: "AI provider: anthropic, openai, gemini, or vendor:model",
+      required: true,
+    }
+  instructions:
+    description: Optional audience, tone, terminology, emphasis, and exclusion guidance
+  anthropic-api-key: { description: Anthropic API key }
+  openai-api-key: { description: OpenAI API key }
+  gemini-api-key: { description: Gemini API key }
+  changelog-path:
+    { description: Repository changelog path, default: CHANGELOG.md }
+  write-repository:
+    {
+      description: Update the checked-out file without pushing,
+      default: "true",
+    }
+  publish-s3: { description: Enable S3 publication, default: "false" }
+  s3-bucket: { description: S3 bucket }
+  s3-key: { description: S3 object key }
+  s3-region: { description: S3 region }
+  s3-endpoint: { description: S3-compatible endpoint }
+  s3-force-path-style:
+    { description: Use path-style S3 addressing, default: "false" }
+  publish-linkedin:
+    { description: Enable LinkedIn publication, default: "false" }
+  linkedin-author: { description: LinkedIn author URN }
+  linkedin-access-token: { description: LinkedIn secret access token }
 outputs:
-  markdown: {description: Canonical rendered Markdown}
-  repository-changed: {description: Whether the changelog bytes changed}
-  content-digest: {description: Stable artifact digest}
-  repository-status: {description: Repository destination status}
-  s3-status: {description: S3 destination status}
-  linkedin-status: {description: LinkedIn destination status}
+  markdown: { description: Canonical rendered Markdown }
+  repository-changed: { description: Whether the changelog bytes changed }
+  content-digest: { description: Stable artifact digest }
+  repository-status: { description: Repository destination status }
+  s3-status: { description: S3 destination status }
+  linkedin-status: { description: LinkedIn destination status }
 runs:
   using: node20
   main: dist/action/index.js

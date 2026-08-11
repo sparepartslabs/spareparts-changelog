@@ -9,3 +9,4 @@ export { registerSecret, sanitize } from "./config/secrets.js";
 export { S3Publisher } from "./publishers/s3.js";
 export { LinkedInPublisher } from "./publishers/linkedin.js";
 export { projectLinkedIn } from "./publishers/linkedin-content.js";
+export { generateChanges, buildPrompt, selectProvider, } from "./ai/generator.js";

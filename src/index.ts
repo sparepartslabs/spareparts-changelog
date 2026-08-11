@@ -6,6 +6,7 @@ export type {
   ReleaseRequest,
   S3Config,
   SourceCommit,
+  AIConfig,
 } from "./domain/release.js";
 export type {
   Destination,
@@ -25,3 +26,9 @@ export type { Publisher } from "./publishers/publisher.js";
 export { S3Publisher } from "./publishers/s3.js";
 export { LinkedInPublisher } from "./publishers/linkedin.js";
 export { projectLinkedIn } from "./publishers/linkedin-content.js";
+export {
+  generateChanges,
+  buildPrompt,
+  selectProvider,
+} from "./ai/generator.js";
+export type { AIFetcher, ProviderSelection } from "./ai/generator.js";

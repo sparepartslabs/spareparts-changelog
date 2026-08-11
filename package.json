@@ -1,11 +1,19 @@
 {
   "name": "spareparts-changelog",
-  "version": "0.1.0",
-  "description": "Deterministic end-user changelogs for repositories, GitHub Actions, S3, and LinkedIn",
+  "version": "0.2.0",
+  "description": "AI-written, evidence-grounded changelogs for repositories, GitHub Actions, S3, and LinkedIn",
   "type": "module",
-  "bin": {"spareparts-changelog": "dist/cli/main.js"},
+  "bin": {
+    "spareparts-changelog": "dist/cli/main.js"
+  },
   "main": "dist/index.js",
-  "files": ["dist", "action.yml", "plugin", "README.md", "LICENSE"],
+  "files": [
+    "dist",
+    "action.yml",
+    "plugin",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc && npm run build:action",
     "build:action": "node scripts/build-action.mjs",
@@ -19,7 +27,9 @@
     "plugin:validate": "node scripts/validate-plugin.mjs",
     "workflows:validate": "node scripts/validate-workflows.mjs"
   },
-  "engines": {"node": ">=20"},
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "@actions/core": "^1.11.1",
     "@aws-sdk/client-s3": "^3.864.0",
@@ -36,5 +46,7 @@
     "typescript-eslint": "^8.39.0",
     "vitest": "^3.2.4"
   },
-  "overrides": {"undici": "^6.28.0"}
+  "overrides": {
+    "undici": "^6.28.0"
+  }
 }

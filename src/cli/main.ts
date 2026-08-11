@@ -1,3 +1,73 @@
 #!/usr/bin/env node
-import {Command} from "commander"; import {run} from "../domain/run.js"; import {registerSecret,sanitize} from "../config/secrets.js";
-const p=new Command().name("spareparts-changelog");p.command("generate").requiredOption("--from <revision>").option("--to <revision>","end","HEAD").requiredOption("--title <text>").option("--changelog <path>","path","CHANGELOG.md").option("--no-write").option("--s3").option("--s3-bucket <name>").option("--s3-key <key>").option("--s3-region <region>").option("--s3-endpoint <url>").option("--s3-force-path-style").option("--linkedin").option("--linkedin-author <urn>").option("--output <mode>","mode","summary").action(async o=>{registerSecret(process.env.LINKEDIN_ACCESS_TOKEN);try{const result=await run({from:o.from,to:o.to,identity:o.title,changelogPath:o.changelog,writeRepository:o.write,s3:{enabled:Boolean(o.s3),bucket:o.s3Bucket,key:o.s3Key,region:o.s3Region,endpoint:o.s3Endpoint,forcePathStyle:Boolean(o.s3ForcePathStyle)},linkedin:{enabled:Boolean(o.linkedin),author:o.linkedinAuthor,accessToken:process.env.LINKEDIN_ACCESS_TOKEN}});if(o.output==="markdown")process.stdout.write(result.artifact.markdown+"\n");else if(o.output==="json")process.stdout.write(JSON.stringify({...result,artifact:{...result.artifact,entries:undefined}},null,2)+"\n");else console.error(`changelog=${result.repositoryChanged?"changed":"unchanged"} digest=${result.artifact.contentDigest}`);if(!result.successful)process.exitCode=5}catch(e){console.error(sanitize(e));process.exitCode=1}});p.parseAsync();
+import { Command } from "commander";
+import { run } from "../domain/run.js";
+import { registerSecret, sanitize } from "../config/secrets.js";
+const p = new Command().name("spareparts-changelog");
+p.command("generate")
+  .requiredOption("--from <revision>")
+  .option("--to <revision>", "end", "HEAD")
+  .requiredOption("--title <text>")
+  .requiredOption("--provider <vendor:model>")
+  .option("--instructions <text>")
+  .option("--changelog <path>", "path", "CHANGELOG.md")
+  .option("--no-write")
+  .option("--s3")
+  .option("--s3-bucket <name>")
+  .option("--s3-key <key>")
+  .option("--s3-region <region>")
+  .option("--s3-endpoint <url>")
+  .option("--s3-force-path-style")
+  .option("--linkedin")
+  .option("--linkedin-author <urn>")
+  .option("--output <mode>", "mode", "summary")
+  .action(async (o) => {
+    const keys = {
+      anthropicApiKey: process.env.ANTHROPIC_API_KEY,
+      openaiApiKey: process.env.OPENAI_API_KEY,
+      geminiApiKey: process.env.GEMINI_API_KEY,
+    };
+    Object.values(keys).forEach(registerSecret);
+    registerSecret(process.env.LINKEDIN_ACCESS_TOKEN);
+    try {
+      const result = await run({
+        from: o.from,
+        to: o.to,
+        identity: o.title,
+        changelogPath: o.changelog,
+        writeRepository: o.write,
+        ai: { provider: o.provider, instructions: o.instructions, ...keys },
+        s3: {
+          enabled: Boolean(o.s3),
+          bucket: o.s3Bucket,
+          key: o.s3Key,
+          region: o.s3Region,
+          endpoint: o.s3Endpoint,
+          forcePathStyle: Boolean(o.s3ForcePathStyle),
+        },
+        linkedin: {
+          enabled: Boolean(o.linkedin),
+          author: o.linkedinAuthor,
+          accessToken: process.env.LINKEDIN_ACCESS_TOKEN,
+        },
+      });
+      if (o.output === "markdown")
+        process.stdout.write(result.artifact.markdown + "\n");
+      else if (o.output === "json")
+        process.stdout.write(
+          JSON.stringify(
+            { ...result, artifact: { ...result.artifact, entries: undefined } },
+            null,
+            2,
+          ) + "\n",
+        );
+      else
+        console.error(
+          `changelog=${result.repositoryChanged ? "changed" : "unchanged"} digest=${result.artifact.contentDigest}`,
+        );
+      if (!result.successful) process.exitCode = 5;
+    } catch (e) {
+      console.error(sanitize(e));
+      process.exitCode = 1;
+    }
+  });
+p.parseAsync();

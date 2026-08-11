@@ -1,4 +1,32 @@
-import {it,expect} from "vitest";import {render} from "../src/render/markdown.js";import {S3Publisher} from "../src/publishers/s3.js";import {LinkedInPublisher} from "../src/publishers/linkedin.js";
-const artifact=render("v1",[],0);
-it("publishes exact artifact to fake S3",async()=>{let input:unknown;const p=new S3Publisher({enabled:true,bucket:"b",key:"k"},{send:async c=>{input=c;return {}}});expect((await p.publish(artifact)).status).toBe("succeeded");expect(JSON.stringify(input)).toContain("text/markdown")});
-it("publishes LinkedIn only through injected fetch",async()=>{let calls=0;const fake=async()=>{calls++;return new Response("",{status:201,headers:{"x-restli-id":"id"}})};const p=new LinkedInPublisher({enabled:true,author:"urn:li:organization:1",accessToken:"secret"},fake);expect((await p.publish(artifact)).status).toBe("succeeded");expect(calls).toBe(1)});
+import { it, expect } from "vitest";
+import { render } from "../src/render/markdown.js";
+import { S3Publisher } from "../src/publishers/s3.js";
+import { LinkedInPublisher } from "../src/publishers/linkedin.js";
+const artifact = render("v1", [], 0);
+it("publishes exact artifact to fake S3", async () => {
+  let input: unknown;
+  const p = new S3Publisher(
+    { enabled: true, bucket: "b", key: "k" },
+    {
+      send: async (c) => {
+        input = c;
+        return {};
+      },
+    },
+  );
+  expect((await p.publish(artifact)).status).toBe("succeeded");
+  expect(JSON.stringify(input)).toContain("text/markdown");
+});
+it("publishes LinkedIn only through injected fetch", async () => {
+  let calls = 0;
+  const fake = async () => {
+    calls++;
+    return new Response("", { status: 201, headers: { "x-restli-id": "id" } });
+  };
+  const p = new LinkedInPublisher(
+    { enabled: true, author: "urn:li:organization:1", accessToken: "secret" },
+    fake,
+  );
+  expect((await p.publish(artifact)).status).toBe("succeeded");
+  expect(calls).toBe(1);
+});

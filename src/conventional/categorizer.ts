@@ -1,3 +1,26 @@
-import type {ChangeEntry,SourceCommit,Category} from "../domain/release.js"; import {parseCommit} from "./parser.js";
-const map:Record<string,Category|undefined>={feat:"added",fix:"fixed",perf:"improved",security:"security",deprecate:"changed",remove:"removed"};
-export function categorize(commits:SourceCommit[]){let omitted=0; const entries:ChangeEntry[]=[]; for(const c of commits){const e=parseCommit(c); const type=/^([a-z]+)(?:\([^)]*\))?!?:/.exec(c.subject)?.[1]; const category=type?map[type]:undefined; if(!e||!category){omitted++;continue} e.category=e.breaking?"breaking":category; entries.push(e)} return {entries,omitted};}
+import type { ChangeEntry, SourceCommit, Category } from "../domain/release.js";
+import { parseCommit } from "./parser.js";
+const map: Record<string, Category | undefined> = {
+  feat: "added",
+  fix: "fixed",
+  perf: "improved",
+  security: "security",
+  deprecate: "changed",
+  remove: "removed",
+};
+export function categorize(commits: SourceCommit[]) {
+  let omitted = 0;
+  const entries: ChangeEntry[] = [];
+  for (const c of commits) {
+    const e = parseCommit(c);
+    const type = /^([a-z]+)(?:\([^)]*\))?!?:/.exec(c.subject)?.[1];
+    const category = type ? map[type] : undefined;
+    if (!e || !category) {
+      omitted++;
+      continue;
+    }
+    e.category = e.breaking ? "breaking" : category;
+    entries.push(e);
+  }
+  return { entries, omitted };
+}
